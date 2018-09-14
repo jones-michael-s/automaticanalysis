@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aap>
+    <tasklist>
+        <currenttask domain='session' desc='construct scrub regressors using QA metrics' modality='MRI' >
+            
+			<qsub>
+				<timeBase>1</timeBase>
+				<memoryBase>1</memoryBase>
+			</qsub>
+
+			<permanenceofoutput>1</permanenceofoutput>
+
+			<!-- specify a metric+threshold from QA_metrics to apply -->
+			<!-- possible metrics are DVARS, FD, and SV (slice variance) -->
+			
+			<!-- if the module detects a QA input stream and these -->
+			<!-- parameters are not defined, the QA stream will be ignored -->
+
+			<QA_metric></QA_metric>
+			<QA_threshold></QA_threshold>
+
+			<!-- can also specify general criteria to ID frames to scrub. This is -->
+			<!-- expanded using eval (ex: [1:2:end] will scrub all odd frames) -->
+
+			<additional_criteria></additional_criteria>
+
+			<!-- you can optionally extend the scrub range before and after any identified -->
+			<!-- single vols by a fixed number of frames using pre- and postkillzone -->
+
+			<prekillzone>0</prekillzone>
+			<postkillzone>0</postkillzone>
+
+			<!-- scrublist can come from anywhere -->
+			<!-- QA comes from aamod_QA_grayplot -->
+
+			﻿<inputstreams>
+				<stream>epi</stream>
+				<stream isessential='0'>scrublist</stream>
+				<stream isessential='0'>QA</stream> 
+				<!-- <stream isessential='0'>QA_stream_v2</stream>  WHAT IS THIS?? -->
+			</inputstreams>
+
+			<!-- the output is literally an integer list of the scrubbed and retained -->
+			<!-- frame numbers, but we duplicate this info in "listspikes" because -->
+			<!-- that's the streamname aamod_firstlevel_model uses for scrubbing -->
+
+			<outputstreams>
+				<stream>scrublist</stream>
+				<stream>keeperlist</stream>
+				<stream>listspikes</stream>
+			</outputstreams>
+
+        </currenttask>
+    </tasklist>
+</aap>

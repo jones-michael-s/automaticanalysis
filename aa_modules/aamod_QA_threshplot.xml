@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aap>
+    <tasklist>
+        <currenttask domain='study' desc='SPM data summary' modality='MRI'>
+            
+            <qsub>
+                <timeBase>1</timeBase>
+                <memoryBase>1</memoryBase>
+            </qsub>
+            
+            <permanenceofoutput>3</permanenceofoutput>
+            			
+            <inputstreams>
+                <stream>QA</stream>
+            </inputstreams>
+            		
+            <outputstreams>
+                <stream>QA_thresholds</stream>
+            </outputstreams>
+            
+        </currenttask>
+    </tasklist>
+</aap>
