@@ -3,7 +3,7 @@
 %
 function [s,w]=aas_shell(cmd,quiet,stopforerrors)
 
-if nargin < 2, quiet=false; end
+if nargin < 2, quiet=true; end
 if nargin < 3, stopforerrors=true; end
 
 %% Prepare
