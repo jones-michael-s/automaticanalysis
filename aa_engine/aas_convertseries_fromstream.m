@@ -87,9 +87,9 @@ for subdirind=1:length(subdirs)
         thispass_numvolumes=0;
         DICOMHEADERS=[];
 		
-		% This array is used to collect sliceing timing info so we can
-		% reconstruct the slice order
-		sliceInfoD = zeros(0, 3);
+	% This array is used to collect sliceing timing info so we can
+	% reconstruct the slice order
+	sliceInfoD = zeros(0, 3);
 		
         while (k<=size(dicomdata_subdir,1))
             
@@ -139,43 +139,43 @@ for subdirind=1:length(subdirs)
                 end
 			end
             
-			if isempty(TR) && isfield(infoD,'Private_2005_1030')
-				% saving throw -- might be a weird Philips scanner
-				TR = infoD.('Private_2005_1030') * 1000;
-				TR = TR(1);
-			end
+		if isempty(TR) && isfield(infoD,'Private_2005_1030')
+			% saving throw -- might be a weird Philips scanner
+			TR = infoD.('Private_2005_1030') * 1000;
+			TR = TR(1);
+		end
 
 
-			if isempty(TE) && isfield(infoD,'Private_2001_1025')
-				% saving throw -- might be a weird Philips scanner
-				TE = infoD.('Private_2001_1025');
-				TE = str2num(TE);
-				infoD.EchoTime = TE;
-			end
+		if isempty(TE) && isfield(infoD,'Private_2001_1025')
+			% saving throw -- might be a weird Philips scanner
+			TE = infoD.('Private_2001_1025');
+			TE = str2num(TE);
+			infoD.EchoTime = TE;
+		end
 
 
-            % if we didn't find a private field, try standard fields.
+                % if we didn't find a private field, try standard fields.
 			
-            if isempty(TR) && isfield(infoD, 'RepetitionTime')
-                TR = infoD.RepetitionTime;
-			end
+                if isempty(TR) && isfield(infoD, 'RepetitionTime')
+                    TR = infoD.RepetitionTime;
+		end
 			
-            if isempty(TE) && isfield(infoD, 'EchoTime')
-                TE = infoD.EchoTime;
-			end
+                if isempty(TE) && isfield(infoD, 'EchoTime')
+                    TE = infoD.EchoTime;
+		end
 			
 
-			% we have an obligation to warn the user
+		% we have an obligation to warn the user
 
-			if isempty(TR)
-				aas_log(aap,false,'WARNING: TR not found');
-			end
+		if isempty(TR)
+		    aas_log(aap,false,'WARNING: TR not found');
+		end
 
-			if isempty(TE)
-				aas_log(aap,false,'WARNING: TE not found, setting to NaN');
-				TE = NaN;
-				infoD.EchoTime = NaN;
-			end		
+		if isempty(TE)
+	  	    aas_log(aap,false,'WARNING: TE not found, setting to NaN');
+		    TE = NaN;
+		    infoD.EchoTime = NaN;
+		end		
 
             
             % Siemens
@@ -229,19 +229,19 @@ for subdirind=1:length(subdirs)
             infoD.slicetimes = slicetimes/1000;
             infoD.echospacing = echospacing;
 
-			if isfield(infoD,'SliceLocation')
+		if isfield(infoD,'SliceLocation')
 
-				% Single slice per DICOM: 
-				% TemporalPositionIdentifier is basically the volume number
-				% InstanceNumber is the temporal position in that acqusition
-				% SliceLocation is spatial
+			% Single slice per DICOM: 
+			% TemporalPositionIdentifier is basically the volume number
+			% InstanceNumber is the temporal position in that acqusition
+			% SliceLocation is spatial
 
-				sliceInfoD(end+1, 2:3) = [infoD.InstanceNumber infoD.SliceLocation];
-				if collectSOinfo
-					sliceInfoD(end, 1) = infoD.TemporalPositionIdentifier;
-				end
-			
+			sliceInfoD(end+1, 2:3) = [infoD.InstanceNumber infoD.SliceLocation];
+			if collectSOinfo
+				sliceInfoD(end, 1) = infoD.TemporalPositionIdentifier;
 			end
+			
+		end
             
             DICOMHEADERS=[DICOMHEADERS {infoD}];
             

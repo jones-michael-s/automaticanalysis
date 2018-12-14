@@ -526,7 +526,7 @@ switch task
         
         % 4D conversion [TA]
 		
-		if numel(finalepis) > 1 && isfield(aap.options, 'NIFTI4D') && aap.options.NIFTI4D
+	if numel(finalepis) > 1 && isfield(aap.options, 'NIFTI4D') && aap.options.NIFTI4D
             finalepis = finalepis{1};
             ind = find(finalepis=='-');
             if numel(ind) > 1, ind = ind(2); end
