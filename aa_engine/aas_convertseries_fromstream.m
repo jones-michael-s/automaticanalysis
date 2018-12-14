@@ -139,43 +139,42 @@ for subdirind=1:length(subdirs)
                 end
 			end
             
-		if isempty(TR) && isfield(infoD,'Private_2005_1030')
-			% saving throw -- might be a weird Philips scanner
-			TR = infoD.('Private_2005_1030') * 1000;
-			TR = TR(1);
-		end
+			if isempty(TR) && isfield(infoD,'Private_2005_1030')
+				% saving throw -- might be a weird Philips scanner
+				TR = infoD.('Private_2005_1030') * 1000;
+				TR = TR(1);
+			end
 
 
-		if isempty(TE) && isfield(infoD,'Private_2001_1025')
-			% saving throw -- might be a weird Philips scanner
-			TE = infoD.('Private_2001_1025');
-			TE = str2num(TE);
-			infoD.EchoTime = TE;
-		end
+			if isempty(TE) && isfield(infoD,'Private_2001_1025')
+				% saving throw -- might be a weird Philips scanner
+				TE = infoD.('Private_2001_1025');
+				TE = str2num(TE);
+				infoD.EchoTime = TE;
+			end
 
 
-                % if we didn't find a private field, try standard fields.
-			
-                if isempty(TR) && isfield(infoD, 'RepetitionTime')
-                    TR = infoD.RepetitionTime;
-		end
-			
-                if isempty(TE) && isfield(infoD, 'EchoTime')
-                    TE = infoD.EchoTime;
-		end
-			
+			% if we didn't find a private field, try standard fields.
 
-		% we have an obligation to warn the user
+			if isempty(TR) && isfield(infoD, 'RepetitionTime')
+				TR = infoD.RepetitionTime;
+			end
 
-		if isempty(TR)
-		    aas_log(aap,false,'WARNING: TR not found');
-		end
+			if isempty(TE) && isfield(infoD, 'EchoTime')
+				TE = infoD.EchoTime;
+			end
 
-		if isempty(TE)
-	  	    aas_log(aap,false,'WARNING: TE not found, setting to NaN');
-		    TE = NaN;
-		    infoD.EchoTime = NaN;
-		end		
+			% we have an obligation to warn the user
+
+			if isempty(TR)
+				aas_log(aap,false,'WARNING: TR not found');
+			end
+
+			if isempty(TE)
+				aas_log(aap,false,'WARNING: TE not found, setting to NaN');
+				TE = NaN;
+				infoD.EchoTime = NaN;
+			end		
 
             
             % Siemens
@@ -203,7 +202,8 @@ for subdirind=1:length(subdirs)
                     for f = 1:numel(subfields), infoD.Private_0025_101b.(subfields{f}) = vals{f}(3:end-1); end
                     if isfield(infoD.Private_0025_101b,'PHASEACCEL'), echospacing = echospacing/str2double(infoD.Private_0025_101b.PHASEACCEL); end
                 end
-            end
+			end
+			
             if ~any(strcmpi(headerFields,'NumberOfPhaseEncodingSteps')), infoD.NumberOfPhaseEncodingSteps = infoD.AcquisitionMatrix(1); end
             collectSOinfo = isempty(sliceorder) && isfield(infoD, 'TemporalPositionIdentifier');
             
