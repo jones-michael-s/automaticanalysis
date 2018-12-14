@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aap>
+    <tasklist>
+        <currenttask domain='subject' desc='extract min/max/mean voxel values from a nifti' modality='MRI' >
+            
+            <qsub>
+                <timeBase>1</timeBase>
+                <memoryBase>1</memoryBase>
+            </qsub>
+            
+            <permanenceofoutput>1</permanenceofoutput>
+			
+            <!-- whole-brain max is always extracted. In addition, a collection of ROI -->
+            <!-- can be specified. The module will use 1) all .nii that live in TPMdir (treating -->
+            <!-- them as tissue probability maps) and/or 2) a list of "seed" ROI defined as an XYZ center -->
+            <!-- and a + radius. Note using seed ROI requires marsbar (unless all seed radius = 0); using -->
+            <!-- TPM does not. Also, you must define a weight for all seeds, even if you don't care about -->
+            <!-- weighted values. Also, if radius>0, use a radius of at least 2 otherwise marsbar fails. -->
+									
+            <TPMdir></TPMdir>
+	
+            <SEEDS>
+               <seed>
+                  <name></name>
+                  <center></center>
+                  <radius></radius>
+                  <weight></weight>
+               </seed>
+            </SEEDS>
+			
+            <!-- weighting for whole-brain max -->
+            <!-- (this keeps nifti_max and weighted_nifti_max the same length) -->
+			
+            <weight>1.0</weight>
+			
+            <!-- example input stream: firstlevel_spmt, normalised_gray -->
+            <!-- define using, e.g., aas_renamestream(aap,'aamod_nifti_max_00001','placeholder','firstlevel_spmt') -->
+
+            <inputstreams>
+               <stream isrenameable='1'>placeholder</stream>
+            </inputstreams>
+           
+            <!-- output streams: -->
+			
+            <!-- nifti_max = max values; tpm_weighted_nifti_max = values weighted by TPM. -->
+            <!-- First entry is whole brain max, followed by ROI (if any), in order defined -->
+            <!-- ROInames = mat file of TPM filenames/seednames, in order, for verification -->
+            <!-- (the first entry will be "whole-brain" so we always generate 3 outstreams) -->
+            <!-- similarly for nifti_min and nifti_mean -->
+				
+            <outputstreams>	
+               <stream>nifti_max</stream>
+               <stream>weighted_nifti_max</stream>
+               <stream>nifti_min</stream>
+               <stream>weighted_nifti_min</stream>
+               <stream>nifti_mean</stream>
+               <stream>weighted_nifti_mean</stream>
+               <stream>ROInames</stream>  
+            </outputstreams>
+            
+        </currenttask>
+    </tasklist>
+</aap>

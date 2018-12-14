@@ -139,19 +139,19 @@ for subdirind=1:length(subdirs)
                 end
 			end
             
-if isempty(TR) && isfield(infoD,'Private_2005_1030')
-	% saving throw -- might be a weird Philips scanner
-	TR = infoD.('Private_2005_1030') * 1000;
-	TR = TR(1);
-end
-		
-			
-if isempty(TE) && isfield(infoD,'Private_2001_1025')
-	% saving throw -- might be a weird Philips scanner
-	TE = infoD.('Private_2001_1025');
-	TE = str2num(TE);
-	infoD.EchoTime = TE;
-end
+			if isempty(TR) && isfield(infoD,'Private_2005_1030')
+				% saving throw -- might be a weird Philips scanner
+				TR = infoD.('Private_2005_1030') * 1000;
+				TR = TR(1);
+			end
+
+
+			if isempty(TE) && isfield(infoD,'Private_2001_1025')
+				% saving throw -- might be a weird Philips scanner
+				TE = infoD.('Private_2001_1025');
+				TE = str2num(TE);
+				infoD.EchoTime = TE;
+			end
 
 
             % if we didn't find a private field, try standard fields.
@@ -165,18 +165,18 @@ end
 			end
 			
 
-% we have an obligation to warn the user
-			
-if isempty(TR)
-	aas_log(aap,false,'WARNING: TR not found');
-end
+			% we have an obligation to warn the user
 
-if isempty(TE)
-	aas_log(aap,false,'WARNING: TE not found, setting to NaN');
-	TE = NaN;
-	infoD.EchoTime = NaN;
-end		
-			
+			if isempty(TR)
+				aas_log(aap,false,'WARNING: TR not found');
+			end
+
+			if isempty(TE)
+				aas_log(aap,false,'WARNING: TE not found, setting to NaN');
+				TE = NaN;
+				infoD.EchoTime = NaN;
+			end		
+
             
             % Siemens
             if isempty(sliceorder) && isfield(infoD, 'CSAImageHeaderInfo') && cell_index({infoD.CSAImageHeaderInfo.name},'MosaicRefAcqTimes')
@@ -229,19 +229,19 @@ end
             infoD.slicetimes = slicetimes/1000;
             infoD.echospacing = echospacing;
 
-if isfield(infoD,'SliceLocation')
+			if isfield(infoD,'SliceLocation')
 
-            % Single slice per DICOM: 
-            % TemporalPositionIdentifier is basically the volume number
-            % InstanceNumber is the temporal position in that acqusition
-            % SliceLocation is spatial
+				% Single slice per DICOM: 
+				% TemporalPositionIdentifier is basically the volume number
+				% InstanceNumber is the temporal position in that acqusition
+				% SliceLocation is spatial
 
-            sliceInfoD(end+1, 2:3) = [infoD.InstanceNumber infoD.SliceLocation];
-            if collectSOinfo
-                sliceInfoD(end, 1) = infoD.TemporalPositionIdentifier;
-			end
+				sliceInfoD(end+1, 2:3) = [infoD.InstanceNumber infoD.SliceLocation];
+				if collectSOinfo
+					sliceInfoD(end, 1) = infoD.TemporalPositionIdentifier;
+				end
 			
-end
+			end
             
             DICOMHEADERS=[DICOMHEADERS {infoD}];
             
@@ -249,7 +249,7 @@ end
                 thispass_numvolumes=thispass_numvolumes+1;
                 if (thispass_numvolumes>chunksize_volumes)
                     DICOMHEADERS=DICOMHEADERS(1:(end-1));
-					sliceInfoD=sliceInfoD(1:(end-1),:);		% ********************** TIBOR FIX
+					sliceInfoD=sliceInfoD(1:(end-1),:);
                     break
                 end
             end
@@ -319,13 +319,13 @@ end
         
         % one DICOM per slice --> one header per volume
 		
-if ~isempty(sliceInfoD)
+		if ~isempty(sliceInfoD)
 			firstsliceInd = sliceInfoD(:,3) == sliceInfoD(find(sliceInfoD(:,2)==min(sliceInfoD(:,2)),1,'first'),3); % select the ones for the first slices per volume
 			DICOMHEADERS = DICOMHEADERS(firstsliceInd); 
 			[junk, sortind] = sort(sliceInfoD(firstsliceInd,2));
-else
-sortind = 1;
-end
+		else
+			sortind = 1;
+		end
 		
 		DICOMHEADERS = DICOMHEADERS(sortind);
 
