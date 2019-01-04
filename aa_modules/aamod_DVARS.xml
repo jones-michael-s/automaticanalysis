@@ -9,13 +9,13 @@
             <!-- of automatically reslicing it (time consuming if multiple -->
             <!-- calls) or bailing (user can fix the tasklist to reslice once) -->
 			
- 			<resliceMaskIfNecessary>1</resliceMaskIfNecessary>
+            <resliceMaskIfNecessary>1</resliceMaskIfNecessary>
 
             <!-- tag epi as unmodifed and aa will use ln to save some disc -->
 			
             <inputstreams>
                <stream ismodified='0'>epi</stream>
-              <stream isessential='0'>meanepi</stream> <!-- for reslicing -->
+               <stream isessential='0'>meanepi</stream> <!-- for reslicing -->
                <stream isessential='0'>native_greymask</stream>
                <stream isessential='0'>native_whitemask</stream>
              </inputstreams>
@@ -23,9 +23,9 @@
             <!-- output stream will contain at least DVARS.wb (wholebrain DVARS) -->
             <!-- and also DVARS.gm and DVARS.wm if gray/white mask was provided -->
 			 
-			 <outputstreams>
-				 <stream>DVARS</stream>
-			 </outputstreams>
+            <outputstreams>
+               <stream>DVARS</stream>
+            </outputstreams>
  			
         </currenttask>
     </tasklist>

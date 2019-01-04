@@ -34,10 +34,16 @@ switch task
 		
 		epi = reshape(epi,row*col*slice,time);
 		
-		epi = detrend(epi')';
+		epi = detrend(epi')'; % helpful?
 		
-		wb = rms( diff(epi,1,2) );	% whole-brain DVARS	
+		% quick-n-dirty implicit masking -- remove zero rows
+		% (don't modify "epi" here! it may be needed later for gm
+		% or wm extraction and removing rows will mess up the mask)
 		
+		temp = diff(epi,1,2);
+		temp = temp(any(temp,2),:);
+		wb = rms(temp);
+				
 		%------------------------------------------------------------------
 		% GREY MATTER (if gm mask provided) 
 		%------------------------------------------------------------------
