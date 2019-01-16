@@ -23,7 +23,7 @@ if ~isempty(val) && (nargin == 3) % index
     
     try val = val{index};
     catch
-		dbs = dbstack(1);
+        dbs = dbstack(1);
         aas_log(aap,false,sprintf('WARNING (%s): %s requested %s(%d), but', mfilename, dbs(1).name, settingstring, index));
         aas_log(aap,false,sprintf('WARNING (%s): only %d value(s) are defined in the current settings.', mfilename, numel(val)));
         aas_log(aap,false,sprintf('WARNING (%s): The first value (%0.9g) will be returned instead.', mfilename, val{1}));
@@ -31,6 +31,3 @@ if ~isempty(val) && (nargin == 3) % index
     end
 end
 end
-
-
-
