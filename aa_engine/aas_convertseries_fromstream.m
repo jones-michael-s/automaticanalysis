@@ -141,7 +141,7 @@ for subdirind=1:length(subdirs)
             
 			if isempty(TR) && isfield(infoD,'Private_2005_1030')
 				% saving throw -- might be a weird Philips scanner
-				TR = infoD.('Private_2005_1030') * 1000;
+				TR = infoD.('Private_2005_1030');
 				TR = TR(1);
 			end
 
@@ -150,7 +150,6 @@ for subdirind=1:length(subdirs)
 				% saving throw -- might be a weird Philips scanner
 				TE = infoD.('Private_2001_1025');
 				TE = str2num(TE);
-				infoD.EchoTime = TE;
 			end
 
 

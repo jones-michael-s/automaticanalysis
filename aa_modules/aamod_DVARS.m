@@ -75,8 +75,13 @@ switch task
 					resliceOpts.wrap = [0 0 0];
 					resliceOpts.prefix = 'r';
 
-					spm_reslice({representative_epi_header.fname gm_mask_filename}, resliceOpts);
+					% need to pick off first frame of epi, otherwise
+					% spm_reslice also reslices 2:end frames (which=1
+					% applies to first IMAGE, not first file)
 					
+% 					spm_reslice({representative_epi_header.fname gm_mask_filename}, resliceOpts);
+					spm_reslice({[representative_epi_header(1).fname ',1'] gm_mask_filename}, resliceOpts);
+				
 					% sneaklily replace gm_mask_filename so we spm load resliced version
 
 					[ p,n,e ] = fileparts(gm_mask_filename);
@@ -125,7 +130,8 @@ switch task
 					resliceOpts.wrap = [0 0 0];
 					resliceOpts.prefix = 'r';
 
-					spm_reslice({representative_epi_header.fname wm_mask_filename}, resliceOpts);
+% 					spm_reslice({representative_epi_header.fname wm_mask_filename}, resliceOpts);
+					spm_reslice({[representative_epi_header(1).fname ',1'] wm_mask_filename}, resliceOpts);
 
 					[ p,n,e ] = fileparts(wm_mask_filename);
 					wm_mask_filename = fullfile(p,[resliceOpts.prefix n e]);
