@@ -19,10 +19,6 @@
             <!-- ignoreafter can be a vector (one value for each session) -->
             <!-- if scalar, the value will be applied to all sessions -->
             <!-- (and this may generate a warning during execution) -->
-            
-            <!-- ignoreafter can be a vector (one value for each session) -->
-            <!-- if scalar, the value will be applied to all sessions -->
-            <!-- (and this may generate a warning during execution) -->
 			
             <ignoreafter desc='Only take this many volumes (including dummies)'>9999999</ignoreafter>            
 
