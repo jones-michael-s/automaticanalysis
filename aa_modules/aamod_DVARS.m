@@ -33,9 +33,7 @@ switch task
 		[ row,col,slice,time ] = size(epi);
 		
 		epi = reshape(epi,row*col*slice,time);
-		
-		epi = detrend(epi')'; % helpful?
-		
+				
 		% quick-n-dirty implicit masking -- remove zero rows
 		% (don't modify "epi" here! it may be needed later for gm
 		% or wm extraction and removing rows will mess up the mask)

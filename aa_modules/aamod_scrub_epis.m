@@ -111,7 +111,7 @@ switch task
 				
 			catch
 				
-				aas_log(aap, true, sprintf('%s: eval of scrub criterion %s failed.\n', mfilenmae, aap.tasklist.currenttask.settings.scrub_criteria));
+				aas_log(aap, true, sprintf('%s: eval of scrub criterion %s failed.\n', mfilename, aap.tasklist.currenttask.settings.scrub_criteria));
 
 			end
 			
